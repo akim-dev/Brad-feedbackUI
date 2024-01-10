@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 function RatingSelect({ select }) {
   const [selected, setSelected] = useState(2);
@@ -68,5 +69,9 @@ function RatingSelect({ select }) {
     </ul>
   );
 }
+
+RatingSelect.propTypes = {
+  select: PropTypes.func.isRequired,
+};
 
 export default RatingSelect;

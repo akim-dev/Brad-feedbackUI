@@ -2,12 +2,13 @@ import Card from "../shared/Card";
 import { useState } from "react";
 import Button from "../shared/Button";
 import RatingSelect from "./RatingSelect";
+import PropTypes from "prop-types";
 
-function FeedbackForm() {
+function FeedbackForm({ handleAdd }) {
   const [text, setText] = useState("");
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
-  const [rating, setRating] = useState(10);
+  const [rating, setRating] = useState("");
 
   const handleTextChange = (e) => {
     // check if text is not empty for validation
@@ -24,9 +25,22 @@ function FeedbackForm() {
 
     setText(e.target.value);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (text.trim().length > 10) {
+      const newFeedback = {
+        text,
+        rating,
+      };
+      //   console.log(newFeedback);
+      handleAdd(newFeedback);
+    }
+  };
+
   return (
     <Card>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h2>How would you rate your service with us?</h2>
         {/* @todo - raing select components */}
         <RatingSelect select={(rating) => setRating(rating)} />
@@ -45,5 +59,9 @@ function FeedbackForm() {
     </Card>
   );
 }
+
+FeedbackForm.propTypes = {
+  handleAdd: PropTypes.func.isRequired,
+};
 
 export default FeedbackForm;
